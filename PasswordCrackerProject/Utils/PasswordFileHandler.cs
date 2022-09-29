@@ -37,7 +37,6 @@ namespace Master_Client
                 using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine();
                     for (int i = 0; i < usernames.Count; i++)
                     {
                         sw.WriteLine($"{usernames[i]}: {passwords[i]}");
