@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Master_Client.Models;
 
 namespace Master_Client
 {
@@ -26,23 +27,20 @@ namespace Master_Client
             /// <param name="usernames">List of usernames</param>
             /// <param name="passwords">List of passwords in clear text</param>
             /// <exception cref="ArgumentException">if usernames and passwords have different lengths</exception>
-            public static void WritePasswordFile(String filename, String[] usernames, String[] passwords)
+            public static void WritePasswordFile(String filename, List<string> usernames, List<string> passwords)
             {
-                HashAlgorithm messageDigest = new SHA1CryptoServiceProvider();
-                if (usernames.Length != passwords.Length)
+                if (usernames.Count != passwords.Count)
                 {
                     throw new ArgumentException("usernames and passwords must be same lengths");
                 }
 
-                using (FileStream fs = new FileStream(filename, FileMode.CreateNew, FileAccess.Write))
+                using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    for (int i = 0; i < usernames.Length; i++)
+                    sw.WriteLine();
+                    for (int i = 0; i < usernames.Count; i++)
                     {
-                        byte[] passwordAsBytes = Array.ConvertAll(passwords[i].ToCharArray(), GetConverter());
-                        byte[] encryptedPassword = messageDigest.ComputeHash(passwordAsBytes);
-                        String line = usernames[i] + ":" + Convert.ToBase64String(encryptedPassword) + "\n";
-                        sw.WriteLine(line);
+                        sw.WriteLine($"{usernames[i]}: {passwords[i]}");
                     }
                 }
             }
