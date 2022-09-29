@@ -8,17 +8,11 @@ using System.Text.Json;
 using Master_Client.Models;
 using Master_Client.Password_Cracker.Utils;
 
-string filename_dictionary = "webster-dictionary.txt";
-//string filename_dictionary = "webster-dictionary-reduced.txt";
+//string filename_dictionary = "webster-dictionary.txt";
+string filename_dictionary = "webster-dictionary-reduced.txt";
 string filename_passwords = "passwords_cleartext.txt";
 
 Console.WriteLine("Master Client");
-
-TcpClient socket = new TcpClient("localhost", 4570);
-
-NetworkStream ns = socket.GetStream();
-StreamReader reader = new StreamReader(ns);
-StreamWriter writer = new StreamWriter(ns);
 
 BlockingCollection<List<string>> chunks = new BlockingCollection<List<string>>();
 ReadDictionaryAndCreateChunks(filename_dictionary);
@@ -26,32 +20,57 @@ ReadDictionaryAndCreateChunks(filename_dictionary);
 List<string> resultsUsernames = new List<string>();
 List<string> resultsPasswords = new List<string>();
 
-while (true)
+List<string> partialResultList = InstancedClient(4570);
+foreach (var i in partialResultList)
 {
-    string? input = reader.ReadLine();
-    Console.WriteLine($"Client received: {input}");
-
-    if (input == "request new chunk")
-    {
-        var data = chunks.Take();
-        writer.WriteLine(JsonSerializer.Serialize(data));
-        writer.Flush();
-        Console.WriteLine($"Client sent: {data.Count} lines");
-    }
-    else
-    {
-        string[] inputArray = input.Split(": ");
-        resultsUsernames.Add(inputArray[0]);
-        resultsPasswords.Add(inputArray[1]);
-    }
-
-    if (resultsUsernames.Count != 0 && !chunks.Any())
-    {
-        PasswordFileHandler.WritePasswordFile(filename_passwords, resultsUsernames, resultsPasswords);
-        Console.WriteLine($"Client printed cracked data to {filename_passwords}");
-    }
+    string[] splitArray = i.Split(" ");
+    resultsUsernames.Add(splitArray[0]);
+    resultsPasswords.Add(splitArray[1]);
 }
 
+if (resultsUsernames.Count != 0 && !chunks.Any())
+{
+    PasswordFileHandler.WritePasswordFile(filename_passwords, resultsUsernames, resultsPasswords);
+    Console.WriteLine($"Client printed cracked data to {filename_passwords}");
+    Console.ReadKey();
+}
+
+List<string> InstancedClient(int port)
+{
+    List<string> userInfoList = new List<string>();
+    TcpClient socket = new TcpClient("localhost", port);
+
+    NetworkStream ns = socket.GetStream();
+    StreamReader reader = new StreamReader(ns);
+    StreamWriter writer = new StreamWriter(ns);
+
+    while (true)
+    {
+        string? input = reader.ReadLine();
+        Console.WriteLine($"Client received: {input}");
+
+        if (input == "request new chunk")
+        {
+            if (chunks.Any())
+            {
+                var data = chunks.Take();
+                writer.WriteLine(JsonSerializer.Serialize(data));
+                writer.Flush();
+                Console.WriteLine($"Client sent: {data.Count} lines");
+            }
+            else
+            {
+                writer.WriteLine("no chunks");
+                socket.Close();
+                return userInfoList;
+            }
+        }
+        else
+        {
+            userInfoList.Add(input);
+        }
+    }
+}
 
 
 void ReadDictionaryAndCreateChunks(string filename)

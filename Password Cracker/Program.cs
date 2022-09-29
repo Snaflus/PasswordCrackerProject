@@ -39,7 +39,18 @@ namespace PasswordCrackerCentralized
             {
                 writer.WriteLine("request new chunk");
                 writer.Flush();
-                var message = reader.ReadLine();
+                var message = "";
+                try
+                {
+                    message = reader.ReadLine();
+                }
+                catch (Exception e)
+                {
+                    //Console.WriteLine(e);
+                    Console.WriteLine("Client terminated the connection");
+                    return; //throw doesn't work
+                }
+                
                 if (message != null)
                 {
                     var data = JsonSerializer.Deserialize<List<String>>(message);
