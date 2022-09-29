@@ -38,6 +38,8 @@ namespace PasswordCrackerCentralized
             while (true)
             {
                 writer.WriteLine("request new chunk");
+                Console.WriteLine("\n----------");
+                Console.WriteLine("Server requested new chunk");
                 writer.Flush();
                 var message = "";
                 try

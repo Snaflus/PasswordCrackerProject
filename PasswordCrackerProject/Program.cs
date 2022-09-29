@@ -8,8 +8,8 @@ using System.Text.Json;
 using Master_Client.Models;
 using Master_Client.Password_Cracker.Utils;
 
-//string filename_dictionary = "webster-dictionary.txt";
-string filename_dictionary = "webster-dictionary-reduced.txt";
+string filename_dictionary = "webster-dictionary.txt";
+//string filename_dictionary = "webster-dictionary-reduced.txt";
 string filename_passwords = "passwords_cleartext.txt";
 
 Console.WriteLine("Master Client");
@@ -47,7 +47,7 @@ List<string> InstancedClient(int port)
     while (true)
     {
         string? input = reader.ReadLine();
-        Console.WriteLine($"Client received: {input}");
+        Console.WriteLine($"Client received: {input}, from port: {port}");
 
         if (input == "request new chunk")
         {

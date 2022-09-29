@@ -45,10 +45,10 @@ namespace Password_Cracker
             }
 
             stopwatch.Stop();
-            Console.WriteLine(string.Join(", ", result));
+            //Console.Write(string.Join(", ", result));
             Console.WriteLine("Out of {0} password {1} was found ", userInfos.Count, result.Count);
-            Console.WriteLine();
             Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            //Console.WriteLine();
 
             return result;
         }
@@ -127,7 +127,7 @@ namespace Password_Cracker
                 if (CompareBytes(userInfo.EntryptedPassword, encryptedPassword))  //compares byte arrays
                 {
                     results.Add(new UserInfoClearText(userInfo.Username, possiblePassword));
-                    Console.WriteLine(userInfo.Username + " " + possiblePassword);
+                    //Console.WriteLine(userInfo.Username + " " + possiblePassword);
                 }
             }
             return results;
