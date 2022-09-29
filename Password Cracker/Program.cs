@@ -16,8 +16,9 @@ namespace PasswordCrackerCentralized
     {
         static void Main()
         {
-            Console.WriteLine("Cracking server");
-            TcpListener listener = new TcpListener(IPAddress.Any, 4570);
+            int port = 4571;
+            Console.WriteLine($"Cracking server at port {port}");
+            TcpListener listener = new TcpListener(IPAddress.Any, port);
             listener.Start();
 
             while (true)

@@ -20,8 +20,26 @@ ReadDictionaryAndCreateChunks(filename_dictionary);
 List<string> resultsUsernames = new List<string>();
 List<string> resultsPasswords = new List<string>();
 
-List<string> partialResultList = InstancedClient(4570);
-foreach (var i in partialResultList)
+List<string> resultsList = new List<string>();
+
+List<string> partialResultList1 = new List<string>();
+List<string> partialResultList2 = new List<string>();
+
+Parallel.Invoke(
+    () =>
+{
+    partialResultList1 = InstancedClient(4571);
+},
+() =>
+{
+    partialResultList2 = InstancedClient(4572);
+}
+);
+resultsList.AddRange(partialResultList1);
+resultsList.AddRange(partialResultList2);
+
+//resultsList = InstancedClient(4570);
+foreach (var i in resultsList)
 {
     string[] splitArray = i.Split(" ");
     resultsUsernames.Add(splitArray[0]);
@@ -98,5 +116,5 @@ void ReadDictionaryAndCreateChunks(string filename)
             }
         }
         chunks.Add(chunk);
-    }
+}
 }
