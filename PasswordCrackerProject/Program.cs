@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using Master_Client.Models;
 using Master_Client.Password_Cracker.Utils;
+
+Stopwatch stopwatch = Stopwatch.StartNew();
 
 string filename_dictionary = "webster-dictionary.txt";
 //string filename_dictionary = "webster-dictionary-reduced.txt";
@@ -28,11 +31,11 @@ List<string> partialResultList2 = new List<string>();
 Parallel.Invoke(
     () =>
 {
-    partialResultList1 = InstancedClient(4571);
+    partialResultList1 = InstancedClient("localhost",4571);
 },
 () =>
 {
-    partialResultList2 = InstancedClient(4572);
+    partialResultList2 = InstancedClient("10.200.130.39",4572);
 }
 );
 resultsList.AddRange(partialResultList1);
@@ -44,6 +47,8 @@ foreach (var i in resultsList)
     string[] splitArray = i.Split(" ");
     resultsUsernames.Add(splitArray[0]);
     resultsPasswords.Add(splitArray[1]);
+    stopwatch.Stop();
+    Console.WriteLine($"Cracking complete, time elapsed: {stopwatch.Elapsed}");
 }
 
 if (resultsUsernames.Count != 0 && !chunks.Any())
@@ -53,10 +58,10 @@ if (resultsUsernames.Count != 0 && !chunks.Any())
     Console.ReadKey();
 }
 
-List<string> InstancedClient(int port)
+List<string> InstancedClient(string ip, int port)
 {
     List<string> userInfoList = new List<string>();
-    TcpClient socket = new TcpClient("localhost", port);
+    TcpClient socket = new TcpClient(ip, port);
 
     NetworkStream ns = socket.GetStream();
     StreamReader reader = new StreamReader(ns);
