@@ -29,7 +29,7 @@ List<string> resultsPasswords = new List<string>();
 while (true)
 {
     string? input = reader.ReadLine();
-    //Console.WriteLine($"Client received: {input}");
+    Console.WriteLine($"Client received: {input}");
 
     if (input == "request new chunk")
     {
@@ -48,7 +48,7 @@ while (true)
     if (resultsUsernames.Count != 0 && !chunks.Any())
     {
         PasswordFileHandler.WritePasswordFile(filename_passwords, resultsUsernames, resultsPasswords);
-        Console.WriteLine($"Client printed {input} to {filename_passwords}");
+        Console.WriteLine($"Client printed cracked data to {filename_passwords}");
     }
 }
 
