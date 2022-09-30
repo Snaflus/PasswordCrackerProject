@@ -124,7 +124,7 @@ List<string> InstancedClient(string ip, int port)
                 var data = chunks.Take();
                 writer.WriteLine(JsonSerializer.Serialize(data));
                 writer.Flush();
-                Console.WriteLine($"Client sent: {data.Count} lines");
+                Console.WriteLine($"Client sent: {data.Count} lines to {ip}:{port}");
             }
             else
             {
