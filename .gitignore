@@ -365,6 +365,7 @@ Password Cracker/bin/Debug/net6.0/Password Cracker.deps.json
 Password Cracker/bin/Debug/net6.0/Password Cracker.dll
 Password Cracker/bin/Debug/net6.0/Password Cracker.exe
 Password Cracker/bin/Debug/net6.0/Password Cracker.runtimeconfig.json
+PasswordCrackerProject/bin/Debug/net6.0/passwords_cleartext.txt
 PasswordCrackerProject/bin/Debug/net6.0/Master Client.deps.json
 PasswordCrackerProject/bin/Debug/net6.0/Master Client.dll
 PasswordCrackerProject/bin/Debug/net6.0/Master Client.exe
