@@ -42,35 +42,51 @@ Parallel.Invoke(
 },
 () =>
 {
-    partialResultList3 = InstancedClient("10.200.130.25", 4573);
+    partialResultList3 = InstancedClient("10.200.130.55", 4573);
 },
 () =>
 {
-    partialResultList4 = InstancedClient("10.200.130.20", 4574);
+    partialResultList4 = InstancedClient("10.200.130.43", 4574);
 },
 () =>
 {
     partialResultList5 = InstancedClient("10.200.130.52", 4575);
 }
 );
-resultsList.AddRange(partialResultList1);
-resultsList.AddRange(partialResultList2);
-resultsList.AddRange(partialResultList3);
-resultsList.AddRange(partialResultList4);
-resultsList.AddRange(partialResultList5);
+//combine all lists when ALL tcp threads are done cracking
+if (partialResultList1 != null)
+{
+    resultsList.AddRange(partialResultList1);
+}
+if (partialResultList2 != null)
+{
+    resultsList.AddRange(partialResultList2);
+}
+if (partialResultList3 != null)
+{
+    resultsList.AddRange(partialResultList3);
+}
+if (partialResultList4 != null)
+{
+    resultsList.AddRange(partialResultList4);
+}
+if (partialResultList5 != null)
+{
+    resultsList.AddRange(partialResultList5);
+}
 
 foreach (var i in resultsList)
 {
     string[] splitArray = i.Split(" ");
     resultsUsernames.Add(splitArray[0]);
     resultsPasswords.Add(splitArray[1]);
-    stopwatch.Stop();
-    Console.WriteLine($"Cracking complete, time elapsed: {stopwatch.Elapsed}");
 }
 
 if (resultsUsernames.Count != 0 && !chunks.Any())
 {
+    stopwatch.Stop();
     PasswordFileHandler.WritePasswordFile(filename_passwords, resultsUsernames, resultsPasswords);
+    Console.WriteLine($"Cracking complete, time elapsed: {stopwatch.Elapsed}");
     Console.WriteLine($"Client printed cracked data to {filename_passwords}");
     Console.ReadKey();
 }
