@@ -31,11 +31,11 @@ List<string> partialResultList2 = new List<string>();
 Parallel.Invoke(
     () =>
 {
-    partialResultList1 = InstancedClient("localhost",4571);
+    partialResultList1 = InstancedClient("localhost", 4572);
 },
 () =>
 {
-    partialResultList2 = InstancedClient("10.200.130.39",4572);
+    partialResultList2 = InstancedClient("10.200.130.39", 4572);
 }
 );
 resultsList.AddRange(partialResultList1);
@@ -61,7 +61,17 @@ if (resultsUsernames.Count != 0 && !chunks.Any())
 List<string> InstancedClient(string ip, int port)
 {
     List<string> userInfoList = new List<string>();
-    TcpClient socket = new TcpClient(ip, port);
+    //TcpClient socket = new TcpClient(ip, port);
+    TcpClient socket = new TcpClient();
+    try
+    {
+        socket.Connect(ip,port);
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+        return null; //throw doesn't work
+    }
 
     NetworkStream ns = socket.GetStream();
     StreamReader reader = new StreamReader(ns);
@@ -121,5 +131,5 @@ void ReadDictionaryAndCreateChunks(string filename)
             }
         }
         chunks.Add(chunk);
-}
+    }
 }
