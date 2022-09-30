@@ -27,21 +27,38 @@ List<string> resultsList = new List<string>();
 
 List<string> partialResultList1 = new List<string>();
 List<string> partialResultList2 = new List<string>();
+List<string> partialResultList3 = new List<string>();
+List<string> partialResultList4 = new List<string>();
+List<string> partialResultList5 = new List<string>();
 
 Parallel.Invoke(
     () =>
 {
-    partialResultList1 = InstancedClient("localhost", 4572);
+    partialResultList1 = InstancedClient("localhost", 4571);
 },
 () =>
 {
     partialResultList2 = InstancedClient("10.200.130.39", 4572);
+},
+() =>
+{
+    partialResultList3 = InstancedClient("10.200.130.25", 4573);
+},
+() =>
+{
+    partialResultList4 = InstancedClient("10.200.130.20", 4574);
+},
+() =>
+{
+    partialResultList5 = InstancedClient("10.200.130.52", 4575);
 }
 );
 resultsList.AddRange(partialResultList1);
 resultsList.AddRange(partialResultList2);
+resultsList.AddRange(partialResultList3);
+resultsList.AddRange(partialResultList4);
+resultsList.AddRange(partialResultList5);
 
-//resultsList = InstancedClient(4570);
 foreach (var i in resultsList)
 {
     string[] splitArray = i.Split(" ");
@@ -69,7 +86,9 @@ List<string> InstancedClient(string ip, int port)
     }
     catch (Exception e)
     {
-        Console.WriteLine(e);
+        socket.Close();
+        Console.WriteLine($"TCP server at {ip}:{port} failed to connect");
+        //Console.WriteLine(e);
         return null; //throw doesn't work
     }
 
