@@ -17,7 +17,7 @@
 mono_crash.*
 
 # Build results
-#[Dd]ebug/
+[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -27,7 +27,7 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-#[Bb]in/
+[Bb]in/
 [Oo]bj/
 [Oo]ut/
 [Ll]og/
@@ -361,12 +361,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-Password Cracker/bin/Debug/net6.0/Password Cracker.deps.json
-Password Cracker/bin/Debug/net6.0/Password Cracker.dll
-Password Cracker/bin/Debug/net6.0/Password Cracker.exe
-Password Cracker/bin/Debug/net6.0/Password Cracker.runtimeconfig.json
-PasswordCrackerProject/bin/Debug/net6.0/passwords_cleartext.txt
-PasswordCrackerProject/bin/Debug/net6.0/Master Client.deps.json
-PasswordCrackerProject/bin/Debug/net6.0/Master Client.dll
-PasswordCrackerProject/bin/Debug/net6.0/Master Client.exe
-PasswordCrackerProject/bin/Debug/net6.0/Master Client.runtimeconfig.json
