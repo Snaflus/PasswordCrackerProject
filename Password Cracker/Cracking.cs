@@ -29,7 +29,6 @@ namespace Password_Cracker
         /// Runs the password cracking algorithm
         /// </summary>
         public List<UserInfoClearText> RunCracking(List<string> dictionary)
-        //public void RunCracking(List<string> dictionary)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
 
@@ -45,10 +44,8 @@ namespace Password_Cracker
             }
 
             stopwatch.Stop();
-            //Console.Write(string.Join(", ", result));
             Console.WriteLine("Out of {0} password {1} was found ", userInfos.Count, result.Count);
             Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
-            //Console.WriteLine();
 
             return result;
         }

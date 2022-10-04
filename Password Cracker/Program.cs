@@ -49,7 +49,6 @@ namespace PasswordCrackerCentralized
                 }
                 catch (Exception e)
                 {
-                    //Console.WriteLine(e);
                     Console.WriteLine("Client terminated the connection");
                     return; //throw doesn't work
                 }
@@ -61,10 +60,7 @@ namespace PasswordCrackerCentralized
                     Console.WriteLine($"Server received: {data.Count} lines");
 
                     List<UserInfoClearText> listUserInfoClearTexts = cracker.RunCracking(data);
-
-                    //writer.WriteLine(JsonSerializer.Serialize(listUserInfoClearTexts));
-                    //writer.Flush();
-
+                    
                     foreach (var i in listUserInfoClearTexts)
                     {
                         writer.WriteLine(i.ToString());
